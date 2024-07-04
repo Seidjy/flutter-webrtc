@@ -1,9 +1,9 @@
 package com.cloudwebrtc.webrtc;
 
-import org.webrtc.ScreenCapturerAndroid;
-import org.webrtc.SurfaceTextureHelper;
-import org.webrtc.CapturerObserver;
-import org.webrtc.VideoFrame;
+import livekit.org.webrtc.ScreenCapturerAndroid;
+import livekit.org.webrtc.SurfaceTextureHelper;
+import livekit.org.webrtc.CapturerObserver;
+import livekit.org.webrtc.VideoFrame;
 
 import android.annotation.TargetApi;
 import android.content.Context;
