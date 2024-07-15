@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "FlutterWebRTCPlugin.h"
 
-@interface RTCMediaStreamTrack (Flutter)
+@interface LKRTCMediaStreamTrack (Flutter)
 @property(nonatomic, strong, nonnull) id settings;
 @end
 
@@ -13,19 +13,19 @@
 
 - (void)getSources:(nonnull FlutterResult)result;
 
-- (void)mediaStreamTrackHasTorch:(nonnull RTCMediaStreamTrack*)track result:(nonnull FlutterResult)result;
+- (void)mediaStreamTrackHasTorch:(nonnull LKRTCMediaStreamTrack*)track result:(nonnull FlutterResult)result;
 
-- (void)mediaStreamTrackSetTorch:(nonnull RTCMediaStreamTrack*)track
+- (void)mediaStreamTrackSetTorch:(nonnull LKRTCMediaStreamTrack*)track
                            torch:(BOOL)torch
                           result:(nonnull FlutterResult)result;
 
-- (void)mediaStreamTrackSetZoom:(nonnull RTCMediaStreamTrack*)track
+- (void)mediaStreamTrackSetZoom:(nonnull LKRTCMediaStreamTrack*)track
                            zoomLevel:(double)zoomLevel
                           result:(nonnull FlutterResult)result;
 
-- (void)mediaStreamTrackSwitchCamera:(nonnull RTCMediaStreamTrack*)track result:(nonnull FlutterResult)result;
+- (void)mediaStreamTrackSwitchCamera:(nonnull LKRTCMediaStreamTrack*)track result:(nonnull FlutterResult)result;
 
-- (void)mediaStreamTrackCaptureFrame:(nonnull RTCMediaStreamTrack*)track
+- (void)mediaStreamTrackCaptureFrame:(nonnull LKRTCMediaStreamTrack*)track
                               toPath:(nonnull NSString*)path
                               result:(nonnull FlutterResult)result;
 

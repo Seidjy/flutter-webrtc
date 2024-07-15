@@ -1,6 +1,6 @@
 #import "FlutterWebRTCPlugin.h"
 
-@interface RTCDataChannel (Flutter) <FlutterStreamHandler>
+@interface LKRTCDataChannel (Flutter) <FlutterStreamHandler>
 @property(nonatomic, strong, nonnull) NSString* peerConnectionId;
 @property(nonatomic, strong, nonnull) NSString* flutterChannelId;
 @property(nonatomic, strong, nullable) FlutterEventSink eventSink;
@@ -8,11 +8,11 @@
 @property(nonatomic, strong, nullable) NSArray<id>* eventQueue;
 @end
 
-@interface FlutterWebRTCPlugin (RTCDataChannel) <RTCDataChannelDelegate>
+@interface FlutterWebRTCPlugin (RTCDataChannel) <LKRTCDataChannelDelegate>
 
 - (void)createDataChannel:(nonnull NSString*)peerConnectionId
                     label:(nonnull NSString*)label
-                   config:(nonnull RTCDataChannelConfiguration*)config
+                   config:(nonnull LKRTCDataChannelConfiguration*)config
                 messenger:(nonnull NSObject<FlutterBinaryMessenger>*)messenger
                    result:(nonnull FlutterResult)result;
 

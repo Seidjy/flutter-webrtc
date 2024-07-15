@@ -1,4 +1,4 @@
-#import <WebRTC/WebRTC.h>
+#import <LiveKitWebRTC/LiveKitWebRTC.h>
 
 #if TARGET_OS_IPHONE
 #import <Flutter/Flutter.h>
@@ -6,9 +6,9 @@
 #import <FlutterMacOS/FlutterMacOS.h>
 #endif
 
-@interface FlutterRTCFrameCapturer : NSObject <RTCVideoRenderer>
+@interface FlutterRTCFrameCapturer : NSObject <LKRTCVideoRenderer>
 
-- (instancetype)initWithTrack:(RTCVideoTrack*)track
+- (instancetype)initWithTrack:(LKRTCVideoTrack*)track
                        toPath:(NSString*)path
                        result:(FlutterResult)result;
 

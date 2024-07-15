@@ -1,9 +1,9 @@
 #import "FlutterRTCDataChannel.h"
-#import <WebRTC/RTCDataChannelConfiguration.h>
+#import <LiveKitWebRTC/RTCDataChannelConfiguration.h>
 #import <objc/runtime.h>
 #import "FlutterRTCPeerConnection.h"
 
-@implementation RTCDataChannel (Flutter)
+@implementation LKRTCDataChannel (Flutter)
 
 - (NSString*)peerConnectionId {
   return objc_getAssociatedObject(self, _cmd);
@@ -74,11 +74,11 @@
 
 - (void)createDataChannel:(nonnull NSString*)peerConnectionId
                     label:(NSString*)label
-                   config:(RTCDataChannelConfiguration*)config
+                   config:(LKRTCDataChannelConfiguration*)config
                 messenger:(NSObject<FlutterBinaryMessenger>*)messenger
                    result:(nonnull FlutterResult)result {
-  RTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
-  RTCDataChannel* dataChannel = [peerConnection dataChannelForLabel:label configuration:config];
+  LKRTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
+  LKRTCDataChannel* dataChannel = [peerConnection dataChannelForLabel:label configuration:config];
 
   if (nil != dataChannel) {
     dataChannel.peerConnectionId = peerConnectionId;
@@ -106,9 +106,9 @@
 
 - (void)dataChannelClose:(nonnull NSString*)peerConnectionId
            dataChannelId:(nonnull NSString*)dataChannelId {
-  RTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
+  LKRTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
   NSMutableDictionary* dataChannels = peerConnection.dataChannels;
-  RTCDataChannel* dataChannel = dataChannels[dataChannelId];
+  LKRTCDataChannel* dataChannel = dataChannels[dataChannelId];
   if (dataChannel) {
     FlutterEventChannel* eventChannel = dataChannel.eventChannel;
     [dataChannel close];
@@ -122,13 +122,13 @@
           dataChannelId:(nonnull NSString*)dataChannelId
                    data:(id)data
                    type:(NSString*)type {
-  RTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
-  RTCDataChannel* dataChannel = peerConnection.dataChannels[dataChannelId];
+  LKRTCPeerConnection* peerConnection = self.peerConnections[peerConnectionId];
+  LKRTCDataChannel* dataChannel = peerConnection.dataChannels[dataChannelId];
 
   NSData* bytes = [type isEqualToString:@"binary"] ? ((FlutterStandardTypedData*)data).data
                                                    : [data dataUsingEncoding:NSUTF8StringEncoding];
 
-  RTCDataBuffer* buffer = [[RTCDataBuffer alloc] initWithData:bytes
+  LKRTCDataBuffer* buffer = [[LKRTCDataBuffer alloc] initWithData:bytes
                                                      isBinary:[type isEqualToString:@"binary"]];
   [dataChannel sendData:buffer];
 }
@@ -147,7 +147,7 @@
   return nil;
 }
 
-- (void)sendEvent:(id)event withChannel:(RTCDataChannel*)channel {
+- (void)sendEvent:(id)event withChannel:(LKRTCDataChannel*)channel {
   if (channel.eventSink) {
     postEvent(channel.eventSink, event);
   } else {
@@ -161,7 +161,7 @@
 #pragma mark - RTCDataChannelDelegate methods
 
 // Called when the data channel state has changed.
-- (void)dataChannelDidChangeState:(RTCDataChannel*)channel {
+- (void)dataChannelDidChangeState:(LKRTCDataChannel*)channel {
   [self sendEvent:@{
     @"event" : @"dataChannelStateChanged",
     @"id" : [NSNumber numberWithInt:channel.channelId],
@@ -171,7 +171,7 @@
 }
 
 // Called when a data buffer was successfully received.
-- (void)dataChannel:(RTCDataChannel*)channel didReceiveMessageWithBuffer:(RTCDataBuffer*)buffer {
+- (void)dataChannel:(LKRTCDataChannel*)channel didReceiveMessageWithBuffer:(LKRTCDataBuffer*)buffer {
   NSString* type;
   id data;
   if (buffer.isBinary) {
@@ -191,7 +191,7 @@
       withChannel:channel];
 }
 
-- (void)dataChannel:(RTCDataChannel*)channel didChangeBufferedAmount:(uint64_t)amount {
+- (void)dataChannel:(LKRTCDataChannel*)channel didChangeBufferedAmount:(uint64_t)amount {
   [self sendEvent:@{
     @"event" : @"dataChannelBufferedAmountChange",
     @"id" : [NSNumber numberWithInt:channel.channelId],

@@ -6,15 +6,15 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import <WebRTC/RTCVideoCapturer.h>
+#import <LiveKitWebRTC/RTCVideoCapturer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class FlutterSocketConnection;
 
-@interface FlutterSocketConnectionFrameReader : RTCVideoCapturer
+@interface FlutterSocketConnectionFrameReader : LKRTCVideoCapturer
 
-- (instancetype)initWithDelegate:(__weak id<RTCVideoCapturerDelegate>)delegate;
+- (instancetype)initWithDelegate:(__weak id<LKRTCVideoCapturerDelegate>)delegate;
 - (void)startCaptureWithConnection:(nonnull FlutterSocketConnection*)connection;
 - (void)stopCapture;
 

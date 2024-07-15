@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <WebRTC/WebRTC.h>
+#import <LiveKitWebRTC/LiveKitWebRTC.h>
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const kRTCScreensharingSocketFD;
@@ -15,7 +15,7 @@ extern NSString* const kRTCScreenSharingExtension;
 
 @class FlutterSocketConnectionFrameReader;
 
-@interface FlutterBroadcastScreenCapturer : RTCVideoCapturer
+@interface FlutterBroadcastScreenCapturer : LKRTCVideoCapturer
 - (void)startCapture;
 - (void)stopCapture;
 - (void)stopCaptureWithCompletionHandler:(nullable void (^)(void))completionHandler;

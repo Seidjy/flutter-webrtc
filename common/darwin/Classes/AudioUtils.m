@@ -5,10 +5,10 @@
 @implementation AudioUtils
 
 + (void)ensureAudioSessionWithRecording:(BOOL)recording {
-  RTCAudioSession* session = [RTCAudioSession sharedInstance];
+  LKRTCAudioSession* session = [LKRTCAudioSession sharedInstance];
   // we also need to set default WebRTC audio configuration, since it may be activated after
   // this method is called
-  RTCAudioSessionConfiguration* config = [RTCAudioSessionConfiguration webRTCConfiguration];
+    LKRTCAudioSessionConfiguration* config = [LKRTCAudioSessionConfiguration webRTCConfiguration];
   // require audio session to be either PlayAndRecord or MultiRoute
   if (recording && session.category != AVAudioSessionCategoryPlayAndRecord &&
       session.category != AVAudioSessionCategoryMultiRoute) {
@@ -38,7 +38,7 @@
 }
 
 + (BOOL)selectAudioInput:(AVAudioSessionPort)type {
-  RTCAudioSession* rtcSession = [RTCAudioSession sharedInstance];
+  LKRTCAudioSession* rtcSession = [LKRTCAudioSession sharedInstance];
   AVAudioSessionPortDescription* inputPort = nil;
   for (AVAudioSessionPortDescription* port in rtcSession.session.availableInputs) {
     if ([port.portType isEqualToString:type]) {
@@ -60,8 +60,8 @@
 }
 
 + (void)setSpeakerphoneOn:(BOOL)enable {
-  RTCAudioSession* session = [RTCAudioSession sharedInstance];
-  RTCAudioSessionConfiguration* config = [RTCAudioSessionConfiguration webRTCConfiguration];
+  LKRTCAudioSession* session = [LKRTCAudioSession sharedInstance];
+  LKRTCAudioSessionConfiguration* config = [LKRTCAudioSessionConfiguration webRTCConfiguration];
     
   if(enable && config.category != AVAudioSessionCategoryPlayAndRecord) {
     NSLog(@"setSpeakerphoneOn: Category option 'defaultToSpeaker' is only applicable with category 'playAndRecord', ignore.");
@@ -100,8 +100,8 @@
 }
 
 + (void)setSpeakerphoneOnButPreferBluetooth {
-  RTCAudioSession* session = [RTCAudioSession sharedInstance];
-  RTCAudioSessionConfiguration* config = [RTCAudioSessionConfiguration webRTCConfiguration];
+  LKRTCAudioSession* session = [LKRTCAudioSession sharedInstance];
+  LKRTCAudioSessionConfiguration* config = [LKRTCAudioSessionConfiguration webRTCConfiguration];
   [session lockForConfiguration];
   NSError* error = nil;
   [session setMode:config.mode error:&error];
@@ -127,7 +127,7 @@
 
 + (void)deactiveRtcAudioSession {
   NSError* error = nil;
-  RTCAudioSession* session = [RTCAudioSession sharedInstance];
+  LKRTCAudioSession* session = [LKRTCAudioSession sharedInstance];
   [session lockForConfiguration];
   if ([session isActive]) {
     BOOL success = [session setActive:NO error:&error];
@@ -181,8 +181,8 @@
 }
 
 + (void) setAppleAudioConfiguration:(NSDictionary*)configuration {
-  RTCAudioSession* session = [RTCAudioSession sharedInstance];
-  RTCAudioSessionConfiguration* config = [RTCAudioSessionConfiguration webRTCConfiguration];
+  LKRTCAudioSession* session = [LKRTCAudioSession sharedInstance];
+  LKRTCAudioSessionConfiguration* config = [LKRTCAudioSessionConfiguration webRTCConfiguration];
 
   NSString* appleAudioCategory = configuration[@"appleAudioCategory"];
   NSArray* appleAudioCategoryOptions = configuration[@"appleAudioCategoryOptions"];

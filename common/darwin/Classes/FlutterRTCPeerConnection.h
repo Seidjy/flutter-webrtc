@@ -1,11 +1,11 @@
 #import "FlutterWebRTCPlugin.h"
 
-@interface RTCPeerConnection (Flutter) <FlutterStreamHandler>
-@property(nonatomic, strong, nonnull) NSMutableDictionary<NSString*, RTCDataChannel*>* dataChannels;
+@interface LKRTCPeerConnection (Flutter) <FlutterStreamHandler>
+@property(nonatomic, strong, nonnull) NSMutableDictionary<NSString*, LKRTCDataChannel*>* dataChannels;
 @property(nonatomic, strong, nonnull)
-    NSMutableDictionary<NSString*, RTCMediaStream*>* remoteStreams;
+    NSMutableDictionary<NSString*, LKRTCMediaStream*>* remoteStreams;
 @property(nonatomic, strong, nonnull)
-    NSMutableDictionary<NSString*, RTCMediaStreamTrack*>* remoteTracks;
+    NSMutableDictionary<NSString*, LKRTCMediaStreamTrack*>* remoteTracks;
 @property(nonatomic, strong, nonnull) NSString* flutterId;
 @property(nonatomic, strong, nullable) FlutterEventSink eventSink;
 @property(nonatomic, strong, nullable) FlutterEventChannel* eventChannel;
@@ -14,36 +14,36 @@
 @interface FlutterWebRTCPlugin (RTCPeerConnection)
 
 - (void)peerConnectionCreateOffer:(nonnull NSDictionary*)constraints
-                   peerConnection:(nonnull RTCPeerConnection*)peerConnection
+                   peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                            result:(nonnull FlutterResult)result;
 
 - (void)peerConnectionCreateAnswer:(nonnull NSDictionary*)constraints
-                    peerConnection:(nonnull RTCPeerConnection*)peerConnection
+                    peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                             result:(nonnull FlutterResult)result;
 
-- (void)peerConnectionSetLocalDescription:(nonnull RTCSessionDescription*)sdp
-                           peerConnection:(nonnull RTCPeerConnection*)peerConnection
+- (void)peerConnectionSetLocalDescription:(nonnull LKRTCSessionDescription*)sdp
+                           peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                                    result:(nonnull FlutterResult)result;
 
-- (void)peerConnectionSetRemoteDescription:(nonnull RTCSessionDescription*)sdp
-                            peerConnection:(nonnull RTCPeerConnection*)peerConnection
+- (void)peerConnectionSetRemoteDescription:(nonnull LKRTCSessionDescription*)sdp
+                            peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                                     result:(nonnull FlutterResult)result;
 
-- (void)peerConnectionAddICECandidate:(nonnull RTCIceCandidate*)candidate
-                       peerConnection:(nonnull RTCPeerConnection*)peerConnection
+- (void)peerConnectionAddICECandidate:(nonnull LKRTCIceCandidate*)candidate
+                       peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                                result:(nonnull FlutterResult)result;
 
-- (void)peerConnectionGetStats:(nonnull RTCPeerConnection*)peerConnection
+- (void)peerConnectionGetStats:(nonnull LKRTCPeerConnection*)peerConnection
                         result:(nonnull FlutterResult)result;
 
 - (void)peerConnectionGetStatsForTrackId:(nonnull NSString*)trackID
-                          peerConnection:(nonnull RTCPeerConnection*)peerConnection
+                          peerConnection:(nonnull LKRTCPeerConnection*)peerConnection
                                   result:(nonnull FlutterResult)result;
 
-- (nonnull RTCMediaConstraints*)parseMediaConstraints:(nonnull NSDictionary*)constraints;
+- (nonnull LKRTCMediaConstraints*)parseMediaConstraints:(nonnull NSDictionary*)constraints;
 
-- (void)peerConnectionSetConfiguration:(nonnull RTCConfiguration*)configuration
-                        peerConnection:(nonnull RTCPeerConnection*)peerConnection;
+- (void)peerConnectionSetConfiguration:(nonnull LKRTCConfiguration*)configuration
+                        peerConnection:(nonnull LKRTCPeerConnection*)peerConnection;
 
 - (void)peerConnectionGetRtpReceiverCapabilities:(nonnull NSDictionary*)argsMap
                                           result:(nonnull FlutterResult)result;

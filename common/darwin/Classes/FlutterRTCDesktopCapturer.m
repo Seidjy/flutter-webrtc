@@ -18,8 +18,8 @@ NSArray<RTCDesktopSource*>* _captureSources;
 
 - (void)getDisplayMedia:(NSDictionary*)constraints result:(FlutterResult)result {
   NSString* mediaStreamId = [[NSUUID UUID] UUIDString];
-  RTCMediaStream* mediaStream = [self.peerConnectionFactory mediaStreamWithStreamId:mediaStreamId];
-  RTCVideoSource* videoSource = [self.peerConnectionFactory videoSourceForScreenCast:YES];
+  LKRTCMediaStream* mediaStream = [self.peerConnectionFactory mediaStreamWithStreamId:mediaStreamId];
+  LKRTCVideoSource* videoSource = [self.peerConnectionFactory videoSourceForScreenCast:YES];
   NSString* trackUUID = [[NSUUID UUID] UUIDString];
 
 #if TARGET_OS_IPHONE
@@ -133,7 +133,7 @@ NSArray<RTCDesktopSource*>* _captureSources;
   };
 #endif
 
-  RTCVideoTrack* videoTrack = [self.peerConnectionFactory videoTrackWithSource:videoSource
+  LKRTCVideoTrack* videoTrack = [self.peerConnectionFactory videoTrackWithSource:videoSource
                                                                        trackId:trackUUID];
   [mediaStream addVideoTrack:videoTrack];
 
@@ -142,7 +142,7 @@ NSArray<RTCDesktopSource*>* _captureSources;
   NSMutableArray* audioTracks = [NSMutableArray array];
   NSMutableArray* videoTracks = [NSMutableArray array];
 
-  for (RTCVideoTrack* track in mediaStream.videoTracks) {
+  for (LKRTCVideoTrack* track in mediaStream.videoTracks) {
     [videoTracks addObject:@{
       @"id" : track.trackId,
       @"kind" : track.kind,

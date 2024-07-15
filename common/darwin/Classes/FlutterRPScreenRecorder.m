@@ -6,10 +6,10 @@
 
 @implementation FlutterRPScreenRecorder {
   RPScreenRecorder* screenRecorder;
-  RTCVideoSource* source;
+  LKRTCVideoSource* source;
 }
 
-- (instancetype)initWithDelegate:(__weak id<RTCVideoCapturerDelegate>)delegate {
+- (instancetype)initWithDelegate:(__weak id<LKRTCVideoCapturerDelegate>)delegate {
   source = delegate;
   return [super initWithDelegate:delegate];
 }
@@ -81,10 +81,10 @@
 
   [source adaptOutputFormatToWidth:(int)(width / 2) height:(int)(height / 2) fps:8];
 
-  RTCCVPixelBuffer* rtcPixelBuffer = [[RTCCVPixelBuffer alloc] initWithPixelBuffer:pixelBuffer];
+  LKRTCCVPixelBuffer* rtcPixelBuffer = [[LKRTCCVPixelBuffer alloc] initWithPixelBuffer:pixelBuffer];
   int64_t timeStampNs =
       CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(sampleBuffer)) * NSEC_PER_SEC;
-  RTCVideoFrame* videoFrame = [[RTCVideoFrame alloc] initWithBuffer:rtcPixelBuffer
+  LKRTCVideoFrame* videoFrame = [[LKRTCVideoFrame alloc] initWithBuffer:rtcPixelBuffer
                                                            rotation:RTCVideoRotation_0
                                                         timeStampNs:timeStampNs];
   [self.delegate capturer:self didCaptureVideoFrame:videoFrame];

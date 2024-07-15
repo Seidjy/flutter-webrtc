@@ -1,17 +1,17 @@
 #import "FlutterWebRTCPlugin.h"
 
-#import <WebRTC/RTCMediaStream.h>
-#import <WebRTC/RTCVideoFrame.h>
-#import <WebRTC/RTCVideoRenderer.h>
-#import <WebRTC/RTCVideoTrack.h>
+#import <LiveKitWebRTC/RTCMediaStream.h>
+#import <LiveKitWebRTC/RTCVideoFrame.h>
+#import <LiveKitWebRTC/RTCVideoRenderer.h>
+#import <LiveKitWebRTC/RTCVideoTrack.h>
 
 @interface FlutterRTCVideoRenderer
-    : NSObject <FlutterTexture, RTCVideoRenderer, FlutterStreamHandler>
+    : NSObject <FlutterTexture, LKRTCVideoRenderer, FlutterStreamHandler>
 
 /**
  * The {@link RTCVideoTrack}, if any, which this instance renders.
  */
-@property(nonatomic, strong) RTCVideoTrack* videoTrack;
+@property(nonatomic, strong) LKRTCVideoTrack* videoTrack;
 @property(nonatomic) int64_t textureId;
 @property(nonatomic, weak) id<FlutterTextureRegistry> registry;
 @property(nonatomic, strong) FlutterEventSink eventSink;
@@ -28,6 +28,6 @@
 - (FlutterRTCVideoRenderer*)createWithTextureRegistry:(id<FlutterTextureRegistry>)registry
                                             messenger:(NSObject<FlutterBinaryMessenger>*)messenger;
 
-- (void)rendererSetSrcObject:(FlutterRTCVideoRenderer*)renderer stream:(RTCVideoTrack*)videoTrack;
+- (void)rendererSetSrcObject:(FlutterRTCVideoRenderer*)renderer stream:(LKRTCVideoTrack*)videoTrack;
 
 @end

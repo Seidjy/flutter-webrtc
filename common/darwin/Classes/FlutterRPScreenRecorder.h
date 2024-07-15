@@ -1,6 +1,6 @@
 #if TARGET_OS_IPHONE
-#import <WebRTC/WebRTC.h>
-@interface FlutterRPScreenRecorder : RTCVideoCapturer
+#import <LiveKitWebRTC/LiveKitWebRTC.h>
+@interface FlutterRPScreenRecorder : LKRTCVideoCapturer
 
 - (void)startCapture;
 
