@@ -14,64 +14,64 @@
 #import "FlutterSocketConnection.h"
 #import "FlutterSocketConnectionFrameReader.h"
 
-const NSUInteger kMaxReadLength = 10 * 1024;
+const NSUInteger lkMaxReadLength = 10 * 1024;
 
-@interface Message : NSObject
+@interface LMessage : NSObject
 
-@property(nonatomic, assign, readonly) CVImageBufferRef imageBuffer;
-@property(nonatomic, copy, nullable) void (^didComplete)(BOOL succes, Message* message);
+@property(nonatomic, assign, readonly) CVImageBufferRef limageBuffer;
+@property(nonatomic, copy, nullable) void (^didComplete)(BOOL succes, LMessage* message);
 
 - (NSInteger)appendBytes:(UInt8*)buffer length:(NSUInteger)length;
 
 @end
 
-@interface Message ()
+@interface LMessage ()
 
-@property(nonatomic, assign) CVImageBufferRef imageBuffer;
-@property(nonatomic, assign) int imageOrientation;
-@property(nonatomic, assign) CFHTTPMessageRef framedMessage;
+@property(nonatomic, assign) CVImageBufferRef limageBuffer;
+@property(nonatomic, assign) int limageOrientation;
+@property(nonatomic, assign) CFHTTPMessageRef lframedMessage;
 
 @end
 
-@implementation Message
+@implementation LMessage
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.imageBuffer = NULL;
+    self.limageBuffer = NULL;
   }
 
   return self;
 }
 
 - (void)dealloc {
-  CVPixelBufferRelease(_imageBuffer);
+  CVPixelBufferRelease(_limageBuffer);
 }
 
 /** Returns the amount of missing bytes to complete the message, or -1 when not enough bytes were
  * provided to compute the message length */
 - (NSInteger)appendBytes:(UInt8*)buffer length:(NSUInteger)length {
-  if (!_framedMessage) {
-    _framedMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, false);
+  if (!_lframedMessage) {
+    _lframedMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, false);
   }
 
-  CFHTTPMessageAppendBytes(_framedMessage, buffer, length);
-  if (!CFHTTPMessageIsHeaderComplete(_framedMessage)) {
+  CFHTTPMessageAppendBytes(_lframedMessage, buffer, length);
+  if (!CFHTTPMessageIsHeaderComplete(_lframedMessage)) {
     return -1;
   }
 
   NSInteger contentLength = [CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
-      _framedMessage, (__bridge CFStringRef) @"Content-Length")) integerValue];
+      _lframedMessage, (__bridge CFStringRef) @"Content-Length")) integerValue];
   NSInteger bodyLength =
-      (NSInteger)[CFBridgingRelease(CFHTTPMessageCopyBody(_framedMessage)) length];
+      (NSInteger)[CFBridgingRelease(CFHTTPMessageCopyBody(_lframedMessage)) length];
 
   NSInteger missingBytesCount = contentLength - bodyLength;
   if (missingBytesCount == 0) {
-    BOOL success = [self unwrapMessage:self.framedMessage];
+    BOOL success = [self unwrapMessage:self.lframedMessage];
     self.didComplete(success, self);
 
-    CFRelease(self.framedMessage);
-    self.framedMessage = NULL;
+    CFRelease(self.lframedMessage);
+    self.lframedMessage = NULL;
   }
 
   return missingBytesCount;
@@ -90,25 +90,25 @@ const NSUInteger kMaxReadLength = 10 * 1024;
   return imageContext;
 }
 
-- (BOOL)unwrapMessage:(CFHTTPMessageRef)framedMessage {
+- (BOOL)unwrapMessage:(CFHTTPMessageRef)lframedMessage {
   size_t width = [CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
-      _framedMessage, (__bridge CFStringRef) @"Buffer-Width")) integerValue];
+      _lframedMessage, (__bridge CFStringRef) @"Buffer-Width")) integerValue];
   size_t height = [CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
-      _framedMessage, (__bridge CFStringRef) @"Buffer-Height")) integerValue];
-  _imageOrientation = [CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
-      _framedMessage, (__bridge CFStringRef) @"Buffer-Orientation")) intValue];
+      _lframedMessage, (__bridge CFStringRef) @"Buffer-Height")) integerValue];
+  _limageOrientation = [CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
+      _lframedMessage, (__bridge CFStringRef) @"Buffer-Orientation")) intValue];
 
-  NSData* messageData = CFBridgingRelease(CFHTTPMessageCopyBody(_framedMessage));
+  NSData* messageData = CFBridgingRelease(CFHTTPMessageCopyBody(_lframedMessage));
 
   // Copy the pixel buffer
   CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault, width, height,
-                                        kCVPixelFormatType_32BGRA, NULL, &_imageBuffer);
+                                        kCVPixelFormatType_32BGRA, NULL, &_limageBuffer);
   if (status != kCVReturnSuccess) {
     NSLog(@"CVPixelBufferCreate failed");
     return false;
   }
 
-  [self copyImageData:messageData toPixelBuffer:&_imageBuffer];
+  [self copyImageData:messageData toPixelBuffer:&_limageBuffer];
 
   return true;
 }
@@ -129,7 +129,7 @@ const NSUInteger kMaxReadLength = 10 * 1024;
 @interface FlutterSocketConnectionFrameReader () <NSStreamDelegate>
 
 @property(nonatomic, strong) FlutterSocketConnection* connection;
-@property(nonatomic, strong) Message* message;
+@property(nonatomic, strong) LMessage* message;
 
 @end
 
@@ -169,14 +169,14 @@ const NSUInteger kMaxReadLength = 10 * 1024;
   }
 
   if (!self.message) {
-    self.message = [[Message alloc] init];
-    _readLength = kMaxReadLength;
+    self.message = [[LMessage alloc] init];
+    _readLength = lkMaxReadLength;
 
     __weak __typeof__(self) weakSelf = self;
-    self.message.didComplete = ^(BOOL success, Message* message) {
+    self.message.didComplete = ^(BOOL success, LMessage* message) {
       if (success) {
-        [weakSelf didCaptureVideoFrame:message.imageBuffer
-                       withOrientation:message.imageOrientation];
+        [weakSelf didCaptureVideoFrame:message.limageBuffer
+                       withOrientation:message.limageOrientation];
       }
 
       weakSelf.message = nil;
@@ -191,8 +191,8 @@ const NSUInteger kMaxReadLength = 10 * 1024;
   }
 
   _readLength = [self.message appendBytes:buffer length:numberOfBytesRead];
-  if (_readLength == -1 || _readLength > kMaxReadLength) {
-    _readLength = kMaxReadLength;
+  if (_readLength == -1 || _readLength > lkMaxReadLength) {
+    _readLength = lkMaxReadLength;
   }
 }
 

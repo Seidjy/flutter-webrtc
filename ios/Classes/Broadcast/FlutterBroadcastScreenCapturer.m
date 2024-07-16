@@ -9,9 +9,9 @@
 #import "FlutterSocketConnection.h"
 #import "FlutterSocketConnectionFrameReader.h"
 
-NSString* const kRTCScreensharingSocketFD = @"rtc_SSFD";
-NSString* const kRTCAppGroupIdentifier = @"RTCAppGroupIdentifier";
-NSString* const kRTCScreenSharingExtension = @"RTCScreenSharingExtension";
+NSString* const lkRTCScreensharingSocketFD = @"rtc_SSFD";
+NSString* const lkRTCAppGroupIdentifier = @"RTCAppGroupIdentifier";
+NSString* const lkRTCScreenSharingExtension = @"RTCScreenSharingExtension";
 
 @interface FlutterBroadcastScreenCapturer ()
 
@@ -54,14 +54,14 @@ NSString* const kRTCScreenSharingExtension = @"RTCScreenSharingExtension";
 
 - (NSString*)appGroupIdentifier {
   NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
-  return infoDictionary[kRTCAppGroupIdentifier];
+  return infoDictionary[lkRTCAppGroupIdentifier];
 }
 
 - (NSString*)filePathForApplicationGroupIdentifier:(nonnull NSString*)identifier {
   NSURL* sharedContainer =
       [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:identifier];
   NSString* socketFilePath =
-      [[sharedContainer URLByAppendingPathComponent:kRTCScreensharingSocketFD] path];
+      [[sharedContainer URLByAppendingPathComponent:lkRTCScreensharingSocketFD] path];
 
   return socketFilePath;
 }

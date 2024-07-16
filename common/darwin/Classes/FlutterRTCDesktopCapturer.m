@@ -50,14 +50,14 @@ NSArray<RTCDesktopSource*>* _captureSources;
 
   if (useBroadcastExtension) {
     NSString* extension =
-        [[[NSBundle mainBundle] infoDictionary] valueForKey:kRTCScreenSharingExtension];
+        [[[NSBundle mainBundle] infoDictionary] valueForKey:lkRTCScreenSharingExtension];
 
     RPSystemBroadcastPickerView* picker = [[RPSystemBroadcastPickerView alloc] init];
     picker.showsMicrophoneButton = false;
     if (extension) {
       picker.preferredExtension = extension;
     } else {
-      NSLog(@"Not able to find the %@ key", kRTCScreenSharingExtension);
+      NSLog(@"Not able to find the %@ key", lkRTCScreenSharingExtension);
     }
     SEL selector = NSSelectorFromString(@"buttonPressed:");
     if ([picker respondsToSelector:selector]) {

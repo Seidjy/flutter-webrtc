@@ -9,9 +9,9 @@
 #import <LiveKitWebRTC/LiveKitWebRTC.h>
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString* const kRTCScreensharingSocketFD;
-extern NSString* const kRTCAppGroupIdentifier;
-extern NSString* const kRTCScreenSharingExtension;
+extern NSString* const lkRTCScreensharingSocketFD;
+extern NSString* const lkRTCAppGroupIdentifier;
+extern NSString* const lkRTCScreenSharingExtension;
 
 @class FlutterSocketConnectionFrameReader;
 
